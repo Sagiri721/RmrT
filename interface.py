@@ -4,7 +4,7 @@ from PIL import ImageTk, Image, ImageDraw;
 import os;
 import pyglet;
 
-import main, utils;
+import main, utils, nlp;
 
 pyglet.font.add_file('res/marugothic.ttf');
 pyglet.font.add_file('res/handwriting.otf');
@@ -23,10 +23,12 @@ class ReaderGUI:
     highlight = None;
     origin = None;
 
+    sentence = [];
+
     def __init__(self, master):
     
         master.title('RawMangaSensei');
-        master.geometry("850x730");
+        master.geometry("860x730");
 
         self.label = Label(master, text="RawManga-Sensei", font= ("Helvetica", 14));
         self.label.pack();
@@ -37,8 +39,12 @@ class ReaderGUI:
         self.text = Label(master, text="...", font=(utils.get_font(), 20), justify=LEFT, wraplength=335, background="white");
         self.text.place(x=510, y=70);
 
+
         self.separator = Separator(master, orient='horizontal');
-        
+
+        self.frame = Canvas(master);
+        self.frame.place(x=510, y=130, width=850-520, height=2000);
+
         self.text.update();
         self.separator.place(x=510, y=self.text.winfo_y() + self.text.winfo_height() + 10, width=200, height=0.4);
 
@@ -47,6 +53,29 @@ class ReaderGUI:
         
         self.master = master;
     
+    def append_meaning(self, word: nlp.Word):
+
+        self.text.update();
+
+        # Place the word data
+        meaning = Frame(self.frame, highlightbackground="blue", highlightthickness=2);
+        meaning["bg"] = "white";
+        meaning.pack(pady=10, ipadx=5, ipady=5);
+
+        # Display the word data
+        term = Label(meaning, font=(utils.get_font(), 20), text=word.origin);
+        term.pack();
+
+        tags = Label(meaning, font=(utils.get_font(), 12, "bold"), text=
+                     (word.jlpt if word.jlpt != [] else "No JLPT") + (", Common word" if word.common else "")
+                    );
+        tags.pack();
+
+        kana = Label(meaning, font=(utils.get_font(), 12), text=word.reading);
+        kana.pack();
+        
+        self.sentence.append((word, meaning));
+
     def update_text(self, new_text):
         
         self.text.config(text=new_text);

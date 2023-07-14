@@ -1,0 +1,129 @@
+{
+    "slug": "から",
+    "is_common": true,
+    "tags": [],
+    "jlpt": [],
+    "japanese": [
+        {
+            "word": null,
+            "reading": "から"
+        }
+    ],
+    "senses": [
+        {
+            "english_definitions": [
+                "from (e.g. time, place, numerical quantity)",
+                "since"
+            ],
+            "parts_of_speech": [
+                "Particle"
+            ],
+            "links": [],
+            "tags": [],
+            "restrictions": [],
+            "see_also": [],
+            "antonyms": [],
+            "source": [],
+            "info": []
+        },
+        {
+            "english_definitions": [
+                "from (originator)",
+                "by"
+            ],
+            "parts_of_speech": [
+                "Particle"
+            ],
+            "links": [],
+            "tags": [],
+            "restrictions": [],
+            "see_also": [],
+            "antonyms": [],
+            "source": [],
+            "info": []
+        },
+        {
+            "english_definitions": [
+                "because",
+                "since"
+            ],
+            "parts_of_speech": [
+                "Particle"
+            ],
+            "links": [],
+            "tags": [],
+            "restrictions": [],
+            "see_also": [],
+            "antonyms": [],
+            "source": [],
+            "info": [
+                "follows verbs, adjectives"
+            ]
+        },
+        {
+            "english_definitions": [
+                "out of (constituent, part)"
+            ],
+            "parts_of_speech": [
+                "Particle"
+            ],
+            "links": [],
+            "tags": [],
+            "restrictions": [],
+            "see_also": [],
+            "antonyms": [],
+            "source": [],
+            "info": []
+        },
+        {
+            "english_definitions": [
+                "through (e.g. window, vestibule)"
+            ],
+            "parts_of_speech": [
+                "Particle"
+            ],
+            "links": [],
+            "tags": [],
+            "restrictions": [],
+            "see_also": [],
+            "antonyms": [],
+            "source": [],
+            "info": []
+        },
+        {
+            "english_definitions": [
+                "after",
+                "since"
+            ],
+            "parts_of_speech": [
+                "Particle"
+            ],
+            "links": [],
+            "tags": [],
+            "restrictions": [],
+            "see_also": [],
+            "antonyms": [],
+            "source": [],
+            "info": [
+                "following the te-form of a verb"
+            ]
+        },
+        {
+            "english_definitions": [
+                "expresses sympathy or warning"
+            ],
+            "parts_of_speech": [
+                "Particle"
+            ],
+            "links": [],
+            "tags": [],
+            "restrictions": [],
+            "see_also": [
+                "いいから"
+            ],
+            "antonyms": [],
+            "source": [],
+            "info": []
+        }
+    ]
+}
