@@ -5,15 +5,17 @@ import cv2;
 import uuid;
 from manga_ocr import MangaOcr;
 
-import interface;
+#import gui.interface as interface;
 import utils;
 import nlp;
 
-utils.load_settings();
+import threading;
 
+utils.load_settings();
 mocr = MangaOcr();
+
 pytesseract.pytesseract.tesseract_cmd = r'D:\\Program Files\\Tesseract-OCR\\tesseract.exe'
-file = "kissxpeak.jpg";
+file = "page.jpg";
 outline_color = (204, 0, 0, 255);
 
 def save_image_from_array(array, name=uuid.uuid4()):
@@ -74,9 +76,9 @@ def draw_boxes(image, boxes):
 
     image.save(f'output/boxes.png');
 
-def analize_section(x, y, w, h, gui):
+def analize_section(x, y, w, h, gui=None):
     
-    subimage = Image.open(f"files/{file}").crop( (x, y, w, h) );
+    subimage = Image.open(f"app/static/{file}").crop( (x, y, w, h) );
 
     #img = apply_image_processing(img=subimage);
     #save_image_from_array(img, f"crop-{uuid.uuid4()}.png");
@@ -84,6 +86,6 @@ def analize_section(x, y, w, h, gui):
     #img = Image.fromarray(img).convert('RGB');
 
     data = mocr(subimage);
-    gui.update_text(data);
-
+    return data;
+    #gui.update_text(data);
     processed = nlp.nlp_sentence(data);

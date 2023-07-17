@@ -11,7 +11,7 @@ fonts = {
 def load_settings():
     global settings;
 
-    f = open("res/settings.json");
+    f = open("./res/settings.json");
     settings = json.load(f);
     print(settings);
 

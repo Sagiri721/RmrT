@@ -1,16 +1,18 @@
 import jisho_api.word;
-import fugashi;
+import sudachipy;
+
 import json;
 import threading;
 
-import interface;
+#import gui.interface as interface;
 
-tagger = fugashi.Tagger('-Owakati');
+tokenizer = sudachipy.Dictionary().create();
+mode = sudachipy.Tokenizer.SplitMode.A;
 
 def nlp_sentence(sentence):
     
     def parse_words():    
-        for word in tagger(sentence):
+        for word in [m for m in tokenizer.tokenize(sentence, mode=mode)]:
             word = Word(word);
     
     words = threading.Thread(target=parse_words);
@@ -19,6 +21,7 @@ def nlp_sentence(sentence):
 class Word:
 
     origin = "";
+    dictform = "";
     reading = "";
     grammar = "";
     wtype = "";
@@ -33,12 +36,15 @@ class Word:
 
     def __init__(self, data):
         
-        self.origin = data.surface;
-        self.reading = data.feature.kana;
+        self.origin = data.surface();
+        self.dictform = data.dictionary_form();
+        self.reading = data.reading_form();
 
-        pos = data.pos.split(",");
+        pos = data.part_of_speech();
+        print(pos);
 
         self.grammar = pos[0] if pos[0] != "*" else None;
+        
         self.wtype = pos[2] if pos[2] != "*" else None;
         self.details = pos[3] if pos[3] != "*" else None;
     
@@ -57,7 +63,7 @@ class Word:
             self.senses = data["senses"];
             self.tags = data["tags"];
 
-            interface.my_gui.append_meaning(word=self);
+            #interface.my_gui.append_meaning(word=self);
         except:
             pass
         

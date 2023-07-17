@@ -1,0 +1,38 @@
+html, body{
+
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+}
+
+.imgbox {
+    margin: 0;
+    padding: 0;
+
+    display: grid;
+    height: 100%;
+}
+
+#page {
+
+    max-width: 100%;
+    max-height: 100vh;
+
+    margin-right: 20px;
+}
+
+#page:active {
+
+    cursor: -webkit-grab; /* Chrome 1-21, Safari 4+ */
+    cursor:    -moz-grab; /* Firefox 1.5-26 */
+    cursor:         grab; /* W3C standards syntax, should come least */
+}
+
+#text {
+
+    max-width: 600px;
+    font-size: xx-large;
+}

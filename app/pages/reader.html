@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RawManga-Sensei web</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename = 'reader.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div class="imgbox">
+        <img id="page" src="{{file}}" alt="page" />
+      </div>
+
+      <div class="content">
+        <h1>RawManga-Sensei</h1>
+        <strong><p>Scan the page to read</p></strong>
+
+        <p id="text">{{text}}</p>
+
+        <hr />
+      </div>
+    </div>
+  </body>
+  <script src="{{ url_for('static', filename = 'reader.js') }}"></script>
+</html>

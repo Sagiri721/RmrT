@@ -3,6 +3,7 @@ from tkinter.ttk import Separator;
 from PIL import ImageTk, Image, ImageDraw;
 import os;
 import pyglet;
+from tkhtmlview import HTMLLabel;
 
 import main, utils, nlp;
 
@@ -39,11 +40,15 @@ class ReaderGUI:
         self.text = Label(master, text="...", font=(utils.get_font(), 20), justify=LEFT, wraplength=335, background="white");
         self.text.place(x=510, y=70);
 
-
         self.separator = Separator(master, orient='horizontal');
 
-        self.frame = Canvas(master);
+        self.frame = HTMLLabel(master, html="<p>scan to get meanings<p>");
         self.frame.place(x=510, y=130, width=850-520, height=2000);
+
+        self.scroll = Scrollbar(self.frame, orient="vertical", command=self.frame.yview);
+        self.frame.config(yscrollcommand=self.scroll.set);
+
+        self.scroll.pack(side=RIGHT, fill=Y);
 
         self.text.update();
         self.separator.place(x=510, y=self.text.winfo_y() + self.text.winfo_height() + 10, width=200, height=0.4);
@@ -57,23 +62,19 @@ class ReaderGUI:
 
         self.text.update();
 
+        #Join meanings
+        joined: str = "";
+        for data in self.sentence: joined += data[1];
+
         # Place the word data
-        meaning = Frame(self.frame, highlightbackground="blue", highlightthickness=2);
-        meaning["bg"] = "white";
-        meaning.pack(pady=10, ipadx=5, ipady=5);
+        meaning = f"""
+        <div style=\"border: solid 1px black\">
+            <h2>{word.origin}</h2>
+            <p><b>{word.reading}</b> ・ <span>"""+(word.jlpt if word.jlpt != [] else "No JLPT") + (", Common word" if word.common else "")+"""</span></p>
+        </div>
+        """;
 
-        # Display the word data
-        term = Label(meaning, font=(utils.get_font(), 20), text=word.origin);
-        term.pack();
-
-        tags = Label(meaning, font=(utils.get_font(), 12, "bold"), text=
-                     (word.jlpt if word.jlpt != [] else "No JLPT") + (", Common word" if word.common else "")
-                    );
-        tags.pack();
-
-        kana = Label(meaning, font=(utils.get_font(), 12), text=word.reading);
-        kana.pack();
-        
+        self.frame.set_html(joined + meaning);
         self.sentence.append((word, meaning));
 
     def update_text(self, new_text):
@@ -88,7 +89,7 @@ class ReaderGUI:
 
         Tk.update(self.master);
 
-        rawimage1 = Image.open(f"files/{name}");
+        rawimage1 = Image.open(f"../app/files/{name}");
         rawimage = rawimage1.resize((self.c.winfo_width(), self.c.winfo_height()), Image.LANCZOS);
         self.origin = rawimage;
 
@@ -145,6 +146,9 @@ class ReaderGUI:
                 max(self.startY, self.y) * self.aspect_ratio_y,
                 self
             );
+
+            self.frame.set_html("");
+            self.sentence = [];
 
             self.startX = None;
             self.startY = None;
