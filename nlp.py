@@ -2,21 +2,42 @@ import jisho_api.word;
 import sudachipy;
 
 import json;
-import threading;
+import utils;
+import re;
 
 #import gui.interface as interface;
 
 tokenizer = sudachipy.Dictionary().create();
 mode = sudachipy.Tokenizer.SplitMode.A;
 
-def nlp_sentence(sentence):
-    
-    def parse_words():    
-        for word in [m for m in tokenizer.tokenize(sentence, mode=mode)]:
-            word = Word(word);
-    
-    words = threading.Thread(target=parse_words);
-    words.start();
+cached_sentence = [];
+
+def nlp_sentence(sentence, callback=None):
+    global cached_sentence;
+
+    cached_sentence = [m for m in tokenizer.tokenize(sentence, mode=mode)];
+    for word in cached_sentence:
+        word = Word(word);
+        if(callback != None): callback(word);
+
+def tokenize(sentence: str):
+    '''Tokenize sentence into words'''
+    global cached_sentence;
+
+    sentence = re.sub(r"[%s]+" %utils.punc, "", sentence);
+    print(sentence);
+
+    cached_sentence = [m for m in tokenizer.tokenize(sentence, mode=mode)];
+    return [m.surface() for m in tokenizer.tokenize(sentence, mode=mode)];
+
+def find_word_meaning(word: str):
+    '''Find the word's meaning using jisho web scrapping api'''
+    if len(cached_sentence) == 0: return None;
+
+    match_word = [match for match in cached_sentence if match.surface() == word][0];
+    my_word: Word = Word(match_word);
+
+    return my_word if my_word.meaning else None;
 
 class Word:
 
@@ -41,7 +62,6 @@ class Word:
         self.reading = data.reading_form();
 
         pos = data.part_of_speech();
-        print(pos);
 
         self.grammar = pos[0] if pos[0] != "*" else None;
         
@@ -65,6 +85,4 @@ class Word:
 
             #interface.my_gui.append_meaning(word=self);
         except:
-            pass
-        
-        
+            pass;        

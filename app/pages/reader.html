@@ -22,8 +22,30 @@
         <p id="text">{{text}}</p>
 
         <hr />
+
+        <button onclick="copyText()">Copy to clipboard</button>
+        <button onclick="translateText()">Translate sentence</button>
+
+        <p>Click on a word from the list to get examples</p>
+
+        <div id="word-container"></div>
+      </div>
+
+      <div class="content">
+        <div class="word-details">
+          <div class="container-seperated">
+            <h2 id="word"></h2>
+            <p id="kana"></p>
+          </div>
+          <div id="meanings"></div>
+
+          <button id="anki">Create anki card</button>
+          <button id="search" onclick="searchWord()">Search for word</button>
+          <button id="fav">Save word</button>
+        </div>
       </div>
     </div>
   </body>
+  <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
   <script src="{{ url_for('static', filename = 'reader.js') }}"></script>
 </html>

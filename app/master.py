@@ -1,5 +1,8 @@
-from flask import Flask, render_template, url_for, request;
+from flask import Flask, render_template, url_for, request, jsonify;
+import threading;
+
 import main;
+import nlp;
 
 app = Flask(__name__, template_folder=".\\", static_folder=".\\static");
 PORT = 5001;
@@ -27,7 +30,32 @@ def reader(chapter):
         );
     except: pass;
 
-    return render_template("pages/reader.html", file=url_for('static', filename=main.file), text=t);
+    return render_template("pages/reader.html", file=url_for('static', filename=chapter), text=t);
+
+@app.route('/parser', methods=["GET"])
+def parser():
+
+    func = int(request.args.get("func"));
+
+    if func == 0:
+
+        # Naturally parse sentence to word list
+
+        sentence = request.args.get("contents");
+        word_list = nlp.tokenize(sentence=sentence);
+        
+        return jsonify({"words":[word_list]});
+    elif func == 1:
+
+        # Get word meaning and general data
+        word = request.args.get("word");
+        meaning: nlp.Word = nlp.find_word_meaning(word=word);
+    
+        if meaning == None: return jsonify({});
+        return jsonify({"meaning": meaning.__dict__});
+        
+    else:
+        return jsonify({});
 
 if __name__ == '__main__':
     app.run('127.0.0.1', PORT);

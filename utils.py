@@ -1,6 +1,7 @@
 import json;
 
 settings = {}
+punc = "！？｡。＂＃＄％＆＇（）＊＋，－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰〾〿–—‘’‛“”„‟…‧﹏.．";
 
 fonts = {
     "formal": "BIZ UDMincho Medium",
