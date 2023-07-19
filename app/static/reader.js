@@ -103,9 +103,17 @@ $(document).ready(function() {
             },
             contentType: "application/json",
             success: function (response) {
-                
+
                 //console.log(response);
                 let word_list = response.words[0];
+
+                // Setup forced order
+                for (let index = 0; index < word_list.length; index++) {
+                    const element = word_list[index];
+                    
+                    container.append(`<div id="uo${element}"></div>`);
+                }
+                
                 word_list.forEach(word => {
                     
                     // Fetch word meaning
@@ -126,7 +134,7 @@ $(document).ready(function() {
 
                             cached_sentence.push(data);
 
-                            var newWord = $(`
+                            var newWord = `
                                 <div class="word-card" onclick='getWordDetails("${data.origin}")'>
                                     <div class="container-seperated">
                                         <h2>${data.origin}</h2>
@@ -138,8 +146,9 @@ $(document).ready(function() {
                                     <br>
                                     ${data.tags.length == 0 ? "" : '<p class="tags"><span>'+data.tags.join("</span><span>")+'</span></p>'}
                                 </div>
-                            `);
-                            container.append(newWord);
+                            `;
+
+                            document.getElementById("uo" + data.origin).innerHTML = newWord;
                         }
                     });
                 });

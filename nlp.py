@@ -28,7 +28,6 @@ def tokenize(sentence: str):
     global cached_sentence;
 
     sentence = re.sub(r"[%s]+" %utils.punc, "", sentence);
-    print(sentence);
 
     cached_sentence = [m for m in tokenizer.tokenize(sentence, mode=mode)];
     return [m.surface() for m in tokenizer.tokenize(sentence, mode=mode)];
@@ -94,7 +93,7 @@ class Word:
         self.wtype = pos[2] if pos[2] != "*" else None;
         self.details = pos[3] if pos[3] != "*" else None;
     
-        if(pos[1] != "*"): self.fetch_meaning();
+        if(pos[1] != "*" and self.grammar != "助詞"): self.fetch_meaning();
 
     def fetch_meaning(self):
 
