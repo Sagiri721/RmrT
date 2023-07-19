@@ -1,5 +1,8 @@
-import jisho_api.word;
+import jisho_api.word, jisho_api.sentence;
 import sudachipy;
+
+import requests;
+from bs4 import BeautifulSoup;
 
 import json;
 import utils;
@@ -29,6 +32,29 @@ def tokenize(sentence: str):
 
     cached_sentence = [m for m in tokenizer.tokenize(sentence, mode=mode)];
     return [m.surface() for m in tokenizer.tokenize(sentence, mode=mode)];
+
+def get_example_sentences(word):
+
+    # Get e4xamples from site, api not working
+    url = "https://jisho.org/search/"+word+"%23sentences"
+    response = requests.get(url).text;
+    soup = BeautifulSoup(response, 'html.parser');
+
+    found = soup.find("span", attrs={'class': 'furigana'});
+    if found: found.decompose();
+
+    contents = soup.find_all("div", attrs={'class': 'sentence_content'});
+
+    return_obj = [];
+    for sentence in contents[:5]:
+
+        parsed = [line for line in sentence.text.split("\n") if line.strip() != ""];
+        return_obj.append({
+            "japanese": parsed[0],
+            "en_translation": parsed[1]
+        });
+
+    return return_obj;
 
 def find_word_meaning(word: str):
     '''Find the word's meaning using jisho web scrapping api'''

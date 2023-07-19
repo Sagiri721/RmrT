@@ -54,6 +54,14 @@ def parser():
         if meaning == None: return jsonify({});
         return jsonify({"meaning": meaning.__dict__});
         
+    elif func == 2:
+
+        # Get example sentences
+        word = request.args.get("word");
+        examples = nlp.get_example_sentences(word=word);
+    
+        return jsonify({"examples": examples});
+
     else:
         return jsonify({});
 

@@ -68,6 +68,21 @@ function getWordDetails(word){
     let definitions = wordData.senses.map(d => `<p><b>${d.english_definitions.join(", ")}</b></p><p>${d.parts_of_speech} ${d.see_also=="" ? "" : (", " + d.see_also)} ${d.tags=="" ? "" : (", " + d.tags)}</p>`);
     let html = "<ol><li>" + definitions.join("</li><li>") + "</li></ol>";
     document.getElementById("meanings").innerHTML = html;
+
+    $.ajax({
+        type: "get",
+        url: "/parser?func=2",
+        data: {"word": wordData.origin},
+        contentTypeType: "application/json",
+        success: function (response) {
+            
+            data = response.examples;
+            if (data.length >= 5) data.length=5;
+
+            html = data.map(e => `<div><p>${e.japanese}</p><p>${e.en_translation}</p><div>`).join();
+            document.getElementById("examples").innerHTML = html;
+        }
+    });
 }
 
 var cached_sentence = [];

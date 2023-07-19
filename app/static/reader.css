@@ -11,8 +11,10 @@ html, body{
 }
 
 .content {
+    
     width: 30%;
     padding: 5px;
+    height: 100vh;
 }
 
 .container-seperated {
@@ -71,16 +73,13 @@ html, body{
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.315);
 }
 
-#word-container {
-
-    height: 400px;
-
+.content {
     overflow-y:scroll;
     -ms-overflow-style: none;
     scrollbar-width: none; /* Firefox */
 }
 
-#word-container::-webkit-scrollbar {display: none;}
+.content::-webkit-scrollbar {display: none;}
 
 .common {
 
@@ -101,8 +100,6 @@ html, body{
 }
 
 #meanings {
-
-
     
     font-size: medium;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
